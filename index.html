@@ -1,13 +1,14 @@
-<!DOCTYPE html>
+
+   <!DOCTYPE html>
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <title>Fashion Consumption Quiz</title>
+  <title>Fashion Quiz</title>
 
-  <!-- ฟอนต์ (เปลี่ยนเป็น pixel ไทยทีหลังได้) -->
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai&display=swap" rel="stylesheet">
+  <!-- ฟอนต์ -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;700&display=swap" rel="stylesheet">
 
- <style>
+  <style>
     body {
       margin: 0;
       min-height: 100vh;
@@ -29,53 +30,22 @@
     .level {
       font-size: 18px;
       margin-bottom: 16px;
+      opacity: 0.6;
     }
 
     h1 {
       font-size: 48px;
       line-height: 1.3;
-      margin-bottom: 40px;
-    }
-
-    p {
-      font-size: 22px;
-      line-height: 1.8;
-      margin-bottom: 24px;
-    }
-
-    .score {
-      margin-top: 40px;
-      font-size: 18px;
-      opacity: 0.8;
-    }
-
-    .button-wrap {
-      margin-top: 60px;
-      display: flex;
-      justify-content: center;
-    }
-
-    button {
-      font-size: 20px;
-      padding: 14px 36px;
-      background: white;
-      color: black;
-      border: 2px solid black;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: black;
-      color: white;
+      margin-bottom: 60px;
     }
 
     .options {
-  margin-top: 60px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;   /* จัดคำตอบให้อยู่กลาง */
-  text-align: center;    /* ตัวอักษรอยู่กลาง */
-}
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
 
     input[type="radio"] {
       display: none;
@@ -84,33 +54,21 @@
     label {
       display: block;
       font-size: 28px;
-      margin-bottom: 24px;
+      margin-bottom: 28px;
       cursor: pointer;
+      transition: all 0.2s ease;
     }
 
     input[type="radio"]:checked + label {
       font-weight: 700;
       text-decoration: underline;
     }
-
-    /* ===== ปุ่ม ===== */
-    button {
-      margin-top: 80px;
-      font-size: 16px;
-      padding: 12px 32px;
-      background: none;
-      border: 1px solid #111;
-      cursor: pointer;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
   </style>
 </head>
 
 <body>
 
-  <div class="panel">
+<div class="panel">
 
     <!-- หน้าแรก -->
     <div id="intro">
@@ -123,78 +81,75 @@
       <button onclick="startQuiz()">เริ่มทำแบบทดสอบ</button>
     </div>
 
-    <!-- หน้าคำถาม -->
-    <div id="quiz" style="display:none;">
-      <div class="progress" id="progress"></div>
+<div class="result-container" id="quiz"></div>
 
-      <h1 id="question"></h1>
+<script>
+  const questions = [
+    {
+      text: "ฉันรู้สึกว่าเสื้อผ้าที่ไม่ใช่เทรนด์ ดูไม่น่าสนใจ",
+      answers: [
+        { text: "เห็นด้วยมาก", score: 3 },
+        { text: "เห็นด้วยปานกลาง", score: 2 },
+        { text: "ไม่เห็นด้วย", score: 1 }
+      ]
+    },
+    {
+      text: "ฉันมักซื้อเสื้อผ้าใหม่เพราะเห็นคนอื่นใส่",
+      answers: [
+        { text: "เห็นด้วยมาก", score: 3 },
+        { text: "เห็นด้วยปานกลาง", score: 2 },
+        { text: "ไม่เห็นด้วย", score: 1 }
+      ]
+    },
+    {
+      text: "ฉันให้ความสำคัญกับกระแสแฟชั่นมากกว่าความจำเป็น",
+      answers: [
+        { text: "เห็นด้วยมาก", score: 3 },
+        { text: "เห็นด้วยปานกลาง", score: 2 },
+        { text: "ไม่เห็นด้วย", score: 1 }
+      ]
+    }
+  ];
+
+  let current = 0;
+  let totalScore = 0;
+  const quiz = document.getElementById("quiz");
+
+  function renderQuestion() {
+    const q = questions[current];
+
+    quiz.innerHTML = `
+      <div class="level">คำถาม ${current + 1} / ${questions.length}</div>
+      <h1>${q.text}</h1>
 
       <div class="options">
-        <input type="radio" id="a1" name="answer" value="3">
-        <label for="a1">เห็นด้วยมาก</label>
-
-        <input type="radio" id="a2" name="answer" value="2">
-        <label for="a2">เห็นด้วยปานกลาง</label>
-
-        <input type="radio" id="a3" name="answer" value="1">
-        <label for="a3">ไม่เห็นด้วย</label>
+        ${q.answers.map((a, i) => `
+          <input type="radio" id="a${i}" name="answer">
+          <label for="a${i}" onclick="selectAnswer(${a.score})">
+            ${a.text}
+          </label>
+        `).join("")}
       </div>
+    `;
+  }
 
-      <button onclick="nextQuestion()">ถัดไป</button>
-    </div>
+  function selectAnswer(score) {
+    totalScore += score;
 
-  </div>
-
-  <script>
-    const questions = [
-      "ฉันรู้สึกว่าเสื้อผ้าที่ไม่ใช่เทรนด์ ดูไม่น่าสนใจ",
-      "ฉันเปลี่ยนความชอบด้านแฟชั่นค่อนข้างเร็วตามกระแสที่เปลี่ยนไป",
-      "การตามกระแสช่วยให้เข้ากับสังคมได้ง่ายขึ้น",
-      "ฉันมักตัดสินใจซื้อเสื้อผ้าจากสิ่งที่เห็นบ่อย ๆ บนโซเชียลมีเดีย",
-      "เมื่อแบรนด์หรือร้านโปรดออกคอลเลกชันใหม่ ฉันมักอยากซื้อทันที"
-    ];
-
-    let current = 0;
-    let score = 0;
-
-    const intro = document.getElementById("intro");
-    const quiz = document.getElementById("quiz");
-    const questionEl = document.getElementById("question");
-    const progressEl = document.getElementById("progress");
-
-    function startQuiz() {
-      intro.style.display = "none";
-      quiz.style.display = "block";
-      showQuestion();
-    }
-
-    function showQuestion() {
-      questionEl.innerText = questions[current];
-      progressEl.innerText = `คำถาม ${current + 1} / ${questions.length}`;
-
-      document
-        .querySelectorAll('input[name="answer"]')
-        .forEach(i => i.checked = false);
-    }
-
-    function nextQuestion() {
-      const selected = document.querySelector('input[name="answer"]:checked');
-      if (!selected) {
-        alert("กรุณาเลือกคำตอบ");
-        return;
-      }
-
-      score += Number(selected.value);
+    // หน่วงนิดนึงให้เห็น underline ก่อนเปลี่ยนข้อ
+    setTimeout(() => {
       current++;
-
       if (current < questions.length) {
-        showQuestion();
+        renderQuestion();
       } else {
-        localStorage.setItem("quizScore", score);
+        localStorage.setItem("quizScore", totalScore);
         window.location.href = "result.html";
       }
-    }
-  </script>
+    }, 300);
+  }
+
+  renderQuestion();
+</script>
 
 </body>
 </html>
