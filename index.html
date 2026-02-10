@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <title>Fashion Trend Quiz</title>
+  <title>Fashion Consumption Quiz</title>
 
   <style>
     body {
@@ -20,6 +20,7 @@
     .panel {
       max-width: 900px;
       padding: 100px 80px;
+      text-align: center;
     }
 
     .progress {
@@ -36,20 +37,45 @@
       margin-bottom: 40px;
     }
 
+    p {
+      font-size: 22px;
+      line-height: 1.8;
+    }
+
+    /* ===== ตัวเลือก ===== */
+    .options {
+      margin-top: 60px;
+      text-align: left;
+      display: inline-block;
+    }
+
+    input[type="radio"] {
+      display: none;
+    }
+
     label {
       display: block;
-      font-size: 22px;
-      margin-bottom: 16px;
+      font-size: 28px;
+      margin-bottom: 24px;
       cursor: pointer;
     }
 
+    input[type="radio"]:checked + label {
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    /* ===== ปุ่ม ===== */
     button {
-      margin-top: 60px;
+      margin-top: 80px;
       font-size: 16px;
-      padding: 12px 28px;
+      padding: 12px 32px;
       background: none;
       border: 1px solid #111;
       cursor: pointer;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
   </style>
 </head>
@@ -57,26 +83,38 @@
 <body>
 
   <div class="panel">
-    <div class="progress" id="progress"></div>
 
-    <h1 id="question"></h1>
+    <!-- หน้าแรก -->
+    <div id="intro">
+      <h1>Fashion Consumption Quiz</h1>
+      <p>
+        แบบทดสอบนี้ไม่มีถูกหรือผิด<br>
+        แต่จะสะท้อนความสัมพันธ์ของคุณ<br>
+        กับ “กระแสแฟชั่น”
+      </p>
+      <button onclick="startQuiz()">เริ่มทำแบบทดสอบ</button>
+    </div>
 
-    <form id="options">
-      <label>
-        <input type="radio" name="answer" value="3">
-        เห็นด้วยมาก
-      </label>
-      <label>
-        <input type="radio" name="answer" value="2">
-        เห็นด้วยปานกลาง
-      </label>
-      <label>
-        <input type="radio" name="answer" value="1">
-        ไม่เห็นด้วย
-      </label>
-    </form>
+    <!-- หน้าคำถาม -->
+    <div id="quiz" style="display:none;">
+      <div class="progress" id="progress"></div>
 
-    <button onclick="nextQuestion()">ถัดไป</button>
+      <h1 id="question"></h1>
+
+      <div class="options">
+        <input type="radio" id="a1" name="answer" value="3">
+        <label for="a1">เห็นด้วยมาก</label>
+
+        <input type="radio" id="a2" name="answer" value="2">
+        <label for="a2">เห็นด้วยปานกลาง</label>
+
+        <input type="radio" id="a3" name="answer" value="1">
+        <label for="a3">ไม่เห็นด้วย</label>
+      </div>
+
+      <button onclick="nextQuestion()">ถัดไป</button>
+    </div>
+
   </div>
 
   <script>
@@ -91,8 +129,16 @@
     let current = 0;
     let score = 0;
 
+    const intro = document.getElementById("intro");
+    const quiz = document.getElementById("quiz");
     const questionEl = document.getElementById("question");
     const progressEl = document.getElementById("progress");
+
+    function startQuiz() {
+      intro.style.display = "none";
+      quiz.style.display = "block";
+      showQuestion();
+    }
 
     function showQuestion() {
       questionEl.innerText = questions[current];
@@ -100,7 +146,7 @@
 
       document
         .querySelectorAll('input[name="answer"]')
-        .forEach(input => input.checked = false);
+        .forEach(i => i.checked = false);
     }
 
     function nextQuestion() {
@@ -120,8 +166,6 @@
         window.location.href = "result.html";
       }
     }
-
-    showQuestion();
   </script>
 
 </body>
