@@ -2,10 +2,10 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <title>ผลลัพธ์ของคุณ</title>
+  <title>Quiz Result</title>
 
-  <!-- ฟอนต์ (เปลี่ยนเป็น pixel ไทยทีหลังได้) -->
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai&display=swap" rel="stylesheet">
+  <!-- ฟอนต์เดียวกับ index -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
     body {
@@ -19,91 +19,96 @@
       color: #000;
     }
 
-    .result-container {
+    .panel {
       max-width: 900px;
       width: 100%;
       text-align: center;
       padding: 40px;
     }
 
-    .level {
-      font-size: 18px;
-      margin-bottom: 16px;
-    }
-
     h1 {
       font-size: 48px;
       line-height: 1.3;
-      margin-bottom: 40px;
-    }
-
-    p {
-      font-size: 22px;
-      line-height: 1.8;
       margin-bottom: 24px;
     }
 
     .score {
-      margin-top: 40px;
-      font-size: 18px;
-      opacity: 0.8;
+      font-size: 20px;
+      opacity: 0.6;
+      margin-bottom: 40px;
     }
 
-    .button-wrap {
-      margin-top: 60px;
-      display: flex;
-      justify-content: center;
+    .result-text {
+      font-size: 22px;
+      line-height: 1.8;
+      margin-bottom: 60px;
     }
 
     button {
       font-size: 20px;
-      padding: 14px 36px;
-      background: white;
-      color: black;
-      border: 2px solid black;
+      padding: 12px 32px;
+      border: 1px solid #000;
+      background: transparent;
       cursor: pointer;
+      transition: all 0.2s ease;
     }
 
     button:hover {
-      background: black;
-      color: white;
+      background: #000;
+      color: #fff;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="result-container">
+<div class="panel">
+  <h1 id="result-title"></h1>
+  <div class="score" id="score"></div>
+  <div class="result-text" id="result-text"></div>
 
-    <div class="level">ระดับ 2</div>
+  <button onclick="goHome()">กลับไปหน้าแรก</button>
+</div>
 
-    <h1>
-      อยู่กึ่งกลางระหว่าง<br>
-      กระแสกับตัวตน
-    </h1>
+<script>
+  const score = Number(localStorage.getItem("quizScore"));
 
-    <p>
+  const titleEl = document.getElementById("result-title");
+  const textEl = document.getElementById("result-text");
+  const scoreEl = document.getElementById("score");
+
+  scoreEl.innerText = `คะแนนรวมของคุณ: ${score}`;
+
+  if (score >= 5 && score <= 8) {
+    titleEl.innerText = "🟥 ระดับ 1: บริโภคตามกระแสน้อย";
+    textEl.innerHTML = `
+      คุณมีแนวโน้มเลือกเสื้อผ้าจากความชอบ ความเหมาะสม และตัวตนของตัวเอง<br>
+      กระแสแฟชั่นและแรงกดดันจากสังคมมีอิทธิพลต่อการตัดสินใจค่อนข้างน้อย<br>
+      คุณไม่ได้ตามเทรนด์เพื่อให้เข้ากับใคร แต่เลือกในสิ่งที่ใช่สำหรับตัวเอง
+    `;
+  } 
+  else if (score >= 9 && score <= 12) {
+    titleEl.innerText = "🟨 ระดับ 2: อยู่กึ่งกลางระหว่างกระแสกับตัวตน";
+    textEl.innerHTML = `
       คุณรับรู้และติดตามเทรนด์แฟชั่น<br>
-      แต่ยังคงพิจารณาความจำเป็น<br>
-      และความเหมาะสมก่อนตัดสินใจซื้อ
-    </p>
+      แต่ยังคงพิจารณาความจำเป็นและความเหมาะสมก่อนตัดสินใจซื้อ<br>
+      คุณเลือกตามกระแสในบางจังหวะ และเลือกตัวเองในบางครั้ง
+    `;
+  } 
+  else if (score >= 13 && score <= 15) {
+    titleEl.innerText = "🟩 ระดับ 3: บริโภคตามกระแสสูง";
+    textEl.innerHTML = `
+      คุณได้รับอิทธิพลจากเทรนด์ แบรนด์ และโซเชียลมีเดียอย่างชัดเจน<br>
+      การตามกระแสมีบทบาทสำคัญต่อการสร้างภาพลักษณ์และความมั่นใจ<br>
+      กระแสมีผลต่อการตัดสินใจของคุณมากกว่าที่คุณคิด
+    `;
+  }
 
-    <p>
-      คุณเลือกตามกระแสในบางจังหวะ<br>
-      และเลือกตัวเองในบางครั้ง
-    </p>
-
-    <div class="score">
-      คะแนนรวม: 10
-    </div>
-
-    <div class="button-wrap">
-      <button onclick="location.href='index.html'">
-        กลับไปหน้าแรก
-      </button>
-    </div>
-
-  </div>
+  function goHome() {
+    localStorage.removeItem("quizScore");
+    window.location.href = "index.html";
+  }
+</script>
 
 </body>
 </html>
