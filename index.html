@@ -1,9 +1,8 @@
-
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <title>Fashion Quiz</title>
+  <title>Fashion Consumption Quiz</title>
 
   <!-- ฟอนต์ -->
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;700&display=swap" rel="stylesheet">
@@ -20,7 +19,7 @@
       color: #000;
     }
 
-    .result-container {
+    .panel {
       max-width: 900px;
       width: 100%;
       text-align: center;
@@ -36,11 +35,31 @@
     h1 {
       font-size: 48px;
       line-height: 1.3;
-      margin-bottom: 60px;
+      margin-bottom: 40px;
+    }
+
+    p {
+      font-size: 22px;
+      line-height: 1.8;
+      margin-bottom: 40px;
+    }
+
+    button {
+      font-size: 20px;
+      padding: 14px 36px;
+      background: white;
+      color: black;
+      border: 2px solid black;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: black;
+      color: white;
     }
 
     .options {
-      margin-top: 40px;
+      margin-top: 60px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -70,30 +89,25 @@
 
 <div class="panel">
 
-    <div id="intro">
-      <h1>Fashion Consumption Quiz</h1>
-      <p>
-        แบบทดสอบนี้ไม่มีถูกหรือผิด<br>
-        แต่จะสะท้อนความสัมพันธ์ของคุณ<br>
-        กับ “กระแสแฟชั่น”
-      </p>
-      <button onclick="startQuiz()">เริ่มทำแบบทดสอบ</button>
-    </div>
-
-  <div id="quiz" style="display:none;">
-    <h1 id="question"></h1>
-    <div class="options" id="options"></div>
+  <!-- หน้าแรก -->
+  <div id="intro">
+    <h1>Fashion Consumption Quiz</h1>
+    <p>
+      แบบทดสอบสั้น ๆ เพื่อสำรวจ<br>
+      ความสัมพันธ์ระหว่าง “กระแส” และ “ตัวตน”
+    </p>
+    <button onclick="startQuiz()">เริ่มทำแบบทดสอบ</button>
   </div>
 
-  <div id="result" style="display:none;">
-    <h1 id="result-title"></h1>
-    <p id="result-text"></p>
-    <div class="score" id="score"></div>
-  </div>
+  <!-- หน้าคำถาม -->
+  <div id="quiz" style="display:none;"></div>
 
-<div class="result-container" id="quiz"></div>
+</div>
 
 <script>
+  const intro = document.getElementById("intro");
+  const quiz = document.getElementById("quiz");
+
   const questions = [
     {
       text: "ฉันรู้สึกว่าเสื้อผ้าที่ไม่ใช่เทรนด์ ดูไม่น่าสนใจ",
@@ -104,7 +118,7 @@
       ]
     },
     {
-      text: "ฉันมักซื้อเสื้อผ้าใหม่เพราะเห็นคนอื่นใส่",
+      text: "ฉันเปลี่ยนความชอบด้านแฟชั่นค่อนข้างเร็วตามกระแสที่เปลี่ยนไป",
       answers: [
         { text: "เห็นด้วยมาก", score: 3 },
         { text: "เห็นด้วยปานกลาง", score: 2 },
@@ -139,7 +153,12 @@
 
   let current = 0;
   let totalScore = 0;
-  const quiz = document.getElementById("quiz");
+
+  function startQuiz() {
+    intro.style.display = "none";
+    quiz.style.display = "block";
+    renderQuestion();
+  }
 
   function renderQuestion() {
     const q = questions[current];
@@ -162,7 +181,6 @@
   function selectAnswer(score) {
     totalScore += score;
 
-    // หน่วงนิดนึงให้เห็น underline ก่อนเปลี่ยนข้อ
     setTimeout(() => {
       current++;
       if (current < questions.length) {
@@ -173,8 +191,6 @@
       }
     }, 300);
   }
-
-  renderQuestion();
 </script>
 
 </body>
