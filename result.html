@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>ผลลัพธ์แบบทดสอบ</title>
+</head>
+<body>
+
+<h1>ผลลัพธ์ของคุณ</h1>
+<h2 id="score"></h2>
+<div id="result"></div>
+
+<br>
+<button onclick="restart()">ทำแบบทดสอบใหม่</button>
+
+<script>
+  const score = Number(localStorage.getItem("quizScore"));
+
+  document.getElementById("score").innerText =
+    `คุณได้ ${score} คะแนน`;
+
+  let text = "";
+
+  if (score >= 5 && score <= 8) {
+    text = "🟥 ระดับ 1: บริโภคตามกระแสน้อย / ยึดตัวเองเป็นหลัก";
+  } else if (score >= 9 && score <= 12) {
+    text = "🟨 ระดับ 2: อยู่กึ่งกลางระหว่างกระแสกับตัวตน";
+  } else {
+    text = "🟩 ระดับ 3: บริโภคตามกระแสสูง";
+  }
+
+  document.getElementById("result").innerText = text;
+
+  function restart() {
+    localStorage.removeItem("quizScore");
+    window.location.href = "index.html";
+  }
+</script>
+
+</body>
+</html>
