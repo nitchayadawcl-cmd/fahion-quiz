@@ -82,6 +82,18 @@
       font-weight: 700;
       text-decoration: underline;
     }
+
+    .fade-out {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.3s ease;
+}
+
+.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.4s ease;
+}
   </style>
 </head>
 
@@ -161,36 +173,43 @@
   }
 
   function renderQuestion() {
-    const q = questions[current];
+  const q = questions[current];
 
-    quiz.innerHTML = `
-      <div class="level">คำถาม ${current + 1} / ${questions.length}</div>
-      <h1>${q.text}</h1>
+  quiz.classList.remove("fade-out");
+  quiz.classList.add("fade-in");
 
-      <div class="options">
-        ${q.answers.map((a, i) => `
-          <input type="radio" id="a${i}" name="answer">
-          <label for="a${i}" onclick="selectAnswer(${a.score})">
-            ${a.text}
-          </label>
-        `).join("")}
-      </div>
-    `;
-  }
+  quiz.innerHTML = `
+    <div class="level">คำถาม ${current + 1} / ${questions.length}</div>
+    <h1>${q.text}</h1>
+
+    <div class="options">
+      ${q.answers.map((a, i) => `
+        <input type="radio" id="a${i}" name="answer">
+        <label for="a${i}" onclick="selectAnswer(${a.score})">
+          ${a.text}
+        </label>
+      `).join("")}
+    </div>
+  `;
+}
 
   function selectAnswer(score) {
-    totalScore += score;
+  totalScore += score;
 
-    setTimeout(() => {
-      current++;
-      if (current < questions.length) {
-        renderQuestion();
-      } else {
-        localStorage.setItem("quizScore", totalScore);
-        window.location.href = "result.html";
-      }
-    }, 300);
-  }
+  quiz.classList.remove("fade-in");
+  quiz.classList.add("fade-out");
+
+  setTimeout(() => {
+    current++;
+    if (current < questions.length) {
+      renderQuestion();
+    } else {
+      localStorage.setItem("quizScore", totalScore);
+      window.location.href = "result.html";
+    }
+  }, 300);
+}
+
 </script>
 
 </body>
