@@ -4,131 +4,106 @@
   <meta charset="UTF-8">
   <title>ผลลัพธ์ของคุณ</title>
 
+  <!-- ฟอนต์ (เปลี่ยนเป็น pixel ไทยทีหลังได้) -->
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai&display=swap" rel="stylesheet">
+
   <style>
-    
     body {
       margin: 0;
-      background-color: #f5f5f3;
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      color: #111;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'IBM Plex Sans Thai', sans-serif;
+      background: #fff;
+      color: #000;
     }
 
-    .panel {
-      max-width: 700px;
-      padding: 80px 60px;
+    .result-container {
+      max-width: 900px;
+      width: 100%;
+      text-align: center;
+      padding: 40px;
     }
 
     .level {
-      font-size: 14px;
-      letter-spacing: 2px;
-      margin-bottom: 40px;
-      text-transform: uppercase;
+      font-size: 18px;
+      margin-bottom: 16px;
     }
 
     h1 {
       font-size: 48px;
-      font-weight: 500;
       line-height: 1.3;
-      margin-bottom: 60px;
+      margin-bottom: 40px;
     }
 
     p {
-      font-size: 20px;
+      font-size: 22px;
       line-height: 1.8;
-      max-width: 600px;
+      margin-bottom: 24px;
     }
 
     .score {
-      margin-top: 80px;
-      font-size: 14px;
-      opacity: 0.6;
+      margin-top: 40px;
+      font-size: 18px;
+      opacity: 0.8;
     }
-    
+
+    .button-wrap {
+      margin-top: 60px;
+      display: flex;
+      justify-content: center;
+    }
+
     button {
-  margin-top: 60px;
-  font-size: 16px;
-  padding: 12px 32px;
-  background: none;
-  border: 1px solid #111;
-  cursor: pointer;
-}
+      font-size: 20px;
+      padding: 14px 36px;
+      background: white;
+      color: black;
+      border: 2px solid black;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: black;
+      color: white;
+    }
   </style>
 </head>
 
 <body>
 
-  <div class="panel">
-    <div class="level" id="level"></div>
+  <div class="result-container">
 
-    <h1 id="title"></h1>
+    <div class="level">ระดับ 2</div>
 
-    <p id="description"></p>
+    <h1>
+      อยู่กึ่งกลางระหว่าง<br>
+      กระแสกับตัวตน
+    </h1>
 
-    <div class="score" id="score"></div>
+    <p>
+      คุณรับรู้และติดตามเทรนด์แฟชั่น<br>
+      แต่ยังคงพิจารณาความจำเป็น<br>
+      และความเหมาะสมก่อนตัดสินใจซื้อ
+    </p>
 
-    <button onclick="location.href='index.html'">
-</button>
+    <p>
+      คุณเลือกตามกระแสในบางจังหวะ<br>
+      และเลือกตัวเองในบางครั้ง
+    </p>
+
+    <div class="score">
+      คะแนนรวม: 10
+    </div>
+
+    <div class="button-wrap">
+      <button onclick="location.href='index.html'">
+        กลับไปหน้าแรก
+      </button>
+    </div>
+
   </div>
-
-  <script>
-    const score = Number(localStorage.getItem("quizScore"));
-
-    const level = document.getElementById("level");
-    const title = document.getElementById("title");
-    const description = document.getElementById("description");
-    const scoreText = document.getElementById("score");
-
-    scoreText.innerText = "คะแนนรวม: " + score;
-
-    // ระดับ 1
-    if (score >= 5 && score <= 8) {
-      level.innerText = "ระดับ 1";
-      title.innerHTML = "บริโภคตามกระแสน้อย<br>ยึดตัวเองเป็นหลัก";
-      description.innerHTML = `
-        คุณมีแนวโน้มเลือกเสื้อผ้าจากความชอบ<br>
-        ความเหมาะสม และตัวตนของตัวเอง<br><br>
-
-        กระแสแฟชั่นและแรงกดดันจากสังคม<br>
-        มีอิทธิพลต่อการตัดสินใจค่อนข้างน้อย<br><br>
-
-        คุณไม่ได้ตามเทรนด์เพื่อให้เข้ากับใคร<br>
-        แต่เลือกในสิ่งที่ใช่สำหรับตัวเอง
-      `;
-    }
-
-    else if (score >= 9 && score <= 12) {
-      level.innerText = "ระดับ 2";
-      title.innerHTML = "อยู่กึ่งกลางระหว่าง<br>กระแสกับตัวตน";
-      description.innerHTML = `
-        คุณรับรู้และติดตามเทรนด์แฟชั่น<br>
-        แต่ยังคงพิจารณาความจำเป็น<br>
-        และความเหมาะสมก่อนตัดสินใจซื้อ<br><br>
-
-        คุณเลือกตามกระแสในบางจังหวะ<br>
-        และเลือกตัวเองในบางครั้ง
-      `;
-    }
-
-    else if (score >= 13 && score <= 15) {
-      level.innerText = "ระดับ 3";
-      title.innerHTML = "บริโภคตามกระแสสูง";
-      description.innerHTML = `
-        คุณได้รับอิทธิพลจากเทรนด์ แบรนด์<br>
-        และโซเชียลมีเดียอย่างชัดเจน<br><br>
-
-        การตามกระแสมีบทบาทสำคัญ<br>
-        ต่อการสร้างภาพลักษณ์และความมั่นใจ<br>
-        มากกว่าที่คุณคิด
-      `;
-    }
-
-    else {
-      level.innerText = "ไม่พบข้อมูล";
-      title.innerText = "กรุณาทำแบบทดสอบก่อน";
-      description.innerText = "หน้านี้จะแสดงผลลัพธ์หลังจากทำควิซเสร็จ";
-      scoreText.innerText = "";
-    }
-  </script>
 
 </body>
 </html>
