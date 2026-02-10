@@ -70,7 +70,6 @@
 
 <div class="panel">
 
-    <!-- หน้าแรก -->
     <div id="intro">
       <h1>Fashion Consumption Quiz</h1>
       <p>
@@ -80,6 +79,17 @@
       </p>
       <button onclick="startQuiz()">เริ่มทำแบบทดสอบ</button>
     </div>
+
+  <div id="quiz" style="display:none;">
+    <h1 id="question"></h1>
+    <div class="options" id="options"></div>
+  </div>
+
+  <div id="result" style="display:none;">
+    <h1 id="result-title"></h1>
+    <p id="result-text"></p>
+    <div class="score" id="score"></div>
+  </div>
 
 <div class="result-container" id="quiz"></div>
 
